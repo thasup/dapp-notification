@@ -8,7 +8,7 @@
     let socket = io();
     let el;
     socket.on('notification', (notificationBody) => {
-      console.log("got notification", notificationBody);
+      console.log("got notification", JSON.parse(notificationBody));
       el = document.getElementById('server-notification');
       el.innerHTML = 'Look what just happened!: ' + notificationBody;
     });
