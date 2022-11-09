@@ -8,7 +8,7 @@
     let socket = io();
     let el;
     socket.on('notification', (notificationBody) => {
-      console.log("got notification");
+      console.log("got notification", notificationBody);
       el = document.getElementById('server-notification');
       el.innerHTML = 'Look what just happened!: ' + notificationBody;
     });
@@ -19,10 +19,13 @@
   <button class="enableEthereumButton">Enable Ethereum</button>
   <h2>Account: <span class="showAccount"></span></h2>
   <button class="enableNotificationsButton">Enable Notifications on this address</button>
+  <p class="message"></p>
   <script>
     const ethereumButton = document.querySelector('.enableEthereumButton');
     const showAccount = document.querySelector('.showAccount');
     const enableNotificationsButton = document.querySelector('.enableNotificationsButton');
+    const messageUpdate = document.querySelector('.message');
+
     // when clicked, send request to server to register the connected Ethereum address with Alchemy
     enableNotificationsButton.addEventListener('click', function (e) {
       e.preventDefault();
@@ -30,8 +33,10 @@
       if (showAccount.innerHTML) {
         socket.emit('register address', showAccount.innerHTML);
       }
-      alert(showAccount.innerHTML+" added to notifications.")
+      alert(showAccount.innerHTML+" added to notifications.");
+      messageUpdate.innerHTML = "Listening to an event update..."
     });
+
     // when clicked, connect to a web3 Ethereum wallet and get the active account
     ethereumButton.addEventListener('click', () => {
       getAccount();
